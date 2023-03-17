@@ -12,6 +12,8 @@ export default () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [jwt, setJwt] = useState<Jwt>({} as Jwt)
 
+  const navigate = useNavigate()
+
   return (
     <div id="main">
       <div id="login-main">
@@ -63,7 +65,14 @@ export default () => {
             id="login-button"
             disabled={!user || !password}
             onClick={() =>
-              onHandleSubmit({ user, password, setUser, setPassword })
+              onHandleSubmit({
+                user,
+                password,
+                setUser,
+                setPassword,
+                navigate,
+                setJwt,
+              })
             }
           >
             Enter

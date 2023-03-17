@@ -1,18 +1,18 @@
 import axios from "axios"
 import { Jwt } from "../components/Login/Types"
-import { useNavigate } from 'react-router-dom'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
 
 type LoginProps = {
     user: string, 
     password: string,
     setUser: React.Dispatch<React.SetStateAction<string>>,
     setPassword: React.Dispatch<React.SetStateAction<string>>
-
+    navigate: NavigateFunction
+    setJwt: React.Dispatch<React.SetStateAction<Jwt>>
 }
 
-const navigate = useNavigate();
-
-const onHandleSubmit = async ({user, password, setUser, setPassword}: LoginProps) => {
+const onHandleSubmit = async ({user, password, setUser, setPassword, navigate, setJwt}: LoginProps) => {
+    
     const data = await axios
       .post('http://localhost:8080/api/login', {
         username: user,
@@ -22,8 +22,8 @@ const onHandleSubmit = async ({user, password, setUser, setPassword}: LoginProps
       .catch(error => console.log(error))
 
     if (data != undefined) {
-      console.log(data.jwt_token)
-      navigate('/ola')
+      setJwt(data)
+      navigate('/home')
     } else {
       alert('Invalid credentials')
       setUser('')
